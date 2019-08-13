@@ -1,0 +1,149 @@
+<!-- Se visualiza los datos-->
+<p-table [columns]="cols" [value]="users">
+    <ng-template pTemplate="header" let-columns>
+        <tr>
+            <th *ngFor="let col of columns">
+                {{col.header}}
+            </th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-rowData let-columns="columns">
+        <tr>
+            <td *ngFor="let col of columns">
+                {{rowData[col.field]}}
+            </td>
+        </tr>
+    </ng-template>
+</p-table>
+<!-- Plantilla para ingresar un nuevo usuario -->
+<div class="card m-3">
+    <h5 class="card-header">Registro del nuevo usuario</h5>
+    <div class="card-body"> 
+        <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+            <div class="form-row">
+                <!-- Tipo de indentisficacion-->
+                <div class="form-group col-5">
+                    <label>Tipo de Identificación</label>
+                    <select formControlName="type_indetificacion" class="form-control"
+                        [ngClass]="{ 'is-invalid': submitted && f.type_indetificacion.errors }">
+                        <option value="">--Seleccionar--</option>
+                        <option value="C">Cédula</option>
+                        <option value="R">Ruc</option>
+                    </select>
+                    <div *ngIf="submitted && f.type_indetificacion.errors" class="invalid-feedback">
+                        <div *ngIf="f.type_indetificacion.errors.required">Tipo de indentificacion es requerido</div>
+                    </div>
+                </div>
+                <!-- Identificacion-->
+                <div class="form-group col-5">
+                    <label>Identificación</label>
+                    <input type="text" formControlName="identificacion" class="form-control"
+                        [ngClass]="{ 'is-invalid': submitted && f.identificacion.errors }" />
+                    <div *ngIf="submitted && f.identificacion.errors" class="invalid-feedback">
+                        <div *ngIf="f.identificacion.errors.required">Identificación es requerida</div>
+                        <div *ngIf="f.identificacion.errors.invalidNumber">Solo se permite números</div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <!-- Nombres -->
+                <div class="form-group col-5">
+                    <label>Nombres</label>
+                    <input type="text" formControlName="nombres" class="form-control"
+                        [ngClass]="{ 'is-invalid': submitted && f.nombres.errors }" />
+                    <div *ngIf="submitted && f.nombres.errors" class="invalid-feedback">
+                        <div *ngIf="f.nombres.errors.required">Nombres es requerido</div>
+                    </div>
+                </div>
+                <!-- Apellidos-->
+                <div class="form-group col-5">
+                    <label>Apellidos</label>
+                    <input type="text" formControlName="apellidos" class="form-control"
+                        [ngClass]="{ 'is-invalid': submitted && f.apellidos.errors }" />
+                    <div *ngIf="submitted && f.apellidos.errors" class="invalid-feedback">
+                        <div *ngIf="f.apellidos.errors.required">Apellidos es requerido</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <!--Telefono-->
+                <div class="form-group col-5">
+                    <label>Teléfono</label>
+                    <input type="text" formControlName="telefono" class="form-control"
+                        [ngClass]="{ 'is-invalid': submitted && f.telefono.errors }" />
+                    <div *ngIf="submitted && f.telefono.errors" class="invalid-feedback">
+                        <div *ngIf="f.telefono.errors.required">Teléfono es requerido</div>
+                        <div *ngIf="f.telefono.errors.minlength">Teléfono debe tener una longitud minima de 7</div>
+                        <div *ngIf="f.telefono.errors.maxLength">Teléfono debe tener una longitud máxima de 10</div>
+                    </div>
+                </div>
+                <!--Celular-->
+                <div class="form-group col-5">
+                    <label>Celular</label>
+                    <input type="text" formControlName="celular" class="form-control"
+                        [ngClass]="{ 'is-invalid': submitted && f.celular.errors }" />
+                    <div *ngIf="submitted && f.celular.errors" class="invalid-feedback">
+                        <div *ngIf="f.celular.errors.required">Celular es requerido</div>
+                        <div *ngIf="f.celular.errors.minlength">Celular debe tener una longitud de 10</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <!--Genero-->
+                <div class="form-group col-5">
+                    <label>Género</label>
+                    <select formControlName="genero" class="form-control"
+                        [ngClass]="{ 'is-invalid': submitted && f.genero.errors }">
+                        <option value="">--Seleccionar--</option>
+                        <option value="M">Masculino</option>
+                        <option value="F">Femenino</option>
+                    </select>
+                    <div *ngIf="submitted && f.genero.errors" class="invalid-feedback">
+                        <div *ngIf="f.genero.errors.required">Género es requerido</div>
+                    </div>
+                </div>
+                <!--Fecha de Nacimiento-->
+                <div class="form-group col-5">
+                    <label>Fecha de Nacimiento</label>
+                    <input type="date" formControlName="fecha_nacimiento" class="form-control"
+                        [ngClass]="{ 'is-invalid': submitted && f.fecha_nacimiento.errors }" />
+                    <div *ngIf="submitted && f.fecha_nacimiento.errors" class="invalid-feedback">
+                        <div *ngIf="f.fecha_nacimiento.errors.required">La fecha de nacimiento es requerida.</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Email-->
+            <div class="form-row">
+                <div class="form-group col-10">
+                    <label>Email</label>
+                    <input type="text" formControlName="email" class="form-control"
+                        [ngClass]="{ 'is-invalid': submitted && f.email.errors }" />
+                    <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
+                        <div *ngIf="f.email.errors.required">Email es requerido</div>
+                        <div *ngIf="f.email.errors.email">Email debe ser un correo valido</div>
+                    </div>
+                </div>
+            </div>
+
+            <!--Dirección-->
+            <div class="form-row">
+                <div class="form-group col-10">
+                    <label>Dirección</label>
+                    <textarea formControlName="direccion" class="form-control"
+                        [ngClass]="{ 'is-invalid': submitted && f.direccion.errors }"> </textarea>
+                    <div *ngIf="submitted && f.direccion.errors" class="invalid-feedback">
+                        <div *ngIf="f.direccion.errors.required">Dirección es requerido</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center">
+                <button class="btn btn-primary mr-1">Registrar</button>
+                <button class="btn btn-secondary" type="reset" (click)="onReset()">Cancelar</button>
+            </div>
+        </form>
+    </div>
+</div>
